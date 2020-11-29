@@ -1,0 +1,53 @@
+.App-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  margin-top: 10px;
+}
+
+/* .text-muted {
+  font-style: italic;
+  font-size: 9px;
+  color: grey;
+} */
+
+.Input {
+  border: 2px solid orange;
+  border-radius: 4px;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.3);
+}
+
+.Input:focus {
+  border-color: #66afe9;
+  box-shadow: rgba(0, 0, 0, 0.075) 0 1px 1px inset,
+    rgba(102, 175, 233, 0.6) 0 0 8px;
+  outline: 0;
+}
+
+Button {
+  background-color: orange;
+  color: #ffffff;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857;
+  margin-bottom: 0;
+  margin-top: 10px;
+  padding: 6px 12px;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: visible;
+  color: black;
+}

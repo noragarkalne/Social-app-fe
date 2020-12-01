@@ -4,7 +4,7 @@ import axios from "axios";
 import "./Loginpage.css";
 import { Container } from "@material-ui/core";
 
-export const LoginPage = (): JSX.Element => {
+export const LoginPage: React.FC = () => {
   const [givenData, setGivenData] = useState({
     email: "",
     password: "",

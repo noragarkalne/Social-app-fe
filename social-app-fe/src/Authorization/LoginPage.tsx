@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { FormGroup, Label, Input, Button } from "reactstrap";
-import axios from "axios";
-import "./Loginpage.css";
 import { Container } from "@material-ui/core";
+import axios from "axios";
+import React, { useState } from "react";
+import { Button, FormGroup, Input, Label } from "reactstrap";
+import "./Loginpage.css";
 
 export const LoginPage: React.FC = () => {
   const [givenData, setGivenData] = useState({

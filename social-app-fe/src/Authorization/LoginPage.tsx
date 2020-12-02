@@ -32,7 +32,6 @@ export const LoginPage: React.FC = () => {
         obj.userName = response.data.name;
         const serializedState = JSON.stringify(obj);
         var a = localStorage.setItem("myData", serializedState);
-        
 
         if (response.status === 200) {
           setLoggedIn(true);
@@ -46,47 +45,45 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    
     <Container component="div">
-     {(loggedIn == false)? (
-         <FormGroup>
-            <div className="Label">
-              <Label> Your email: </Label>
-            </div>
+      {loggedIn === false ? (
+        <FormGroup>
+          <div className="Label">
+            <Label> Your email: </Label>
+          </div>
 
-            <Input
-              className="Input"
-              type="email"
-              id="email"
-              onChange={(e) =>
+          <Input
+            className="Input"
+            type="email"
+            id="email"
+            onChange={(e) =>
               setGivenData({ ...givenData, email: e.target.value })
-              }
-              placeholder="enter your email"
-            />
-            <div className="Label">
+            }
+            placeholder="enter your email"
+          />
+          <div className="Label">
             <Label> Your password: </Label>
-            </div>
+          </div>
 
-            <Input
-              className="Input"
-              type="password"
-              id="password"
-              onChange={(e) =>
+          <Input
+            className="Input"
+            type="password"
+            id="password"
+            onChange={(e) =>
               setGivenData({ ...givenData, password: e.target.value })
-              }
-              placeholder="enter your password"
-              />
+            }
+            placeholder="enter your password"
+          />
 
-            <div className="Button">
+          <div className="Button">
             <Button onClick={loginUser.bind(this)} className="App-button">
-                Login
+              Login
             </Button>
-            </div>
-          </FormGroup>
-     ) : (
-          <Redirect to="/dashboard" />
-     )}
+          </div>
+        </FormGroup>
+      ) : (
+        <Redirect to="/dashboard" />
+      )}
     </Container>
   );
- 
 };

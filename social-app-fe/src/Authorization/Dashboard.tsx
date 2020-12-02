@@ -13,14 +13,22 @@ export const Dashboard = () => {
     let arr = {};
     if (data) {
       arr = JSON.parse(data);
+
+      const array = Object.entries(arr);
+      const x = Object.fromEntries(array);
+      var y = Object.keys(x).map((key) => `${x[key]}`);
+      setGivenUser(y[2].toString());
+    } else {
+      <Redirect to="/login" />;
     }
-    const array = Object.entries(arr);
-    const x = Object.fromEntries(array);
-    var y = Object.keys(x).map((key) => `${x[key]}`);
-    setGivenUser(y[2].toString());
 
     console.log("givenuser: ", givenUser);
   }, []);
+
+  const Logout = () => {
+    setIsAuth(false);
+    localStorage.clear();
+  };
 
   if (!isAuth) {
     return <Redirect to="/login" />;
@@ -30,7 +38,7 @@ export const Dashboard = () => {
     <>
       <div className="col-sm-12 btn btn-primary">Dashboard</div>
       <h1>Welcome {givenUser} </h1>
-      <Button onClick={() => setIsAuth(false)}>Logout</Button>
+      <Button onClick={Logout}>Logout</Button>
 
       <div>isAuth: {isAuth.toString()}</div>
     </>

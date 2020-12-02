@@ -1,6 +1,7 @@
 import { Container } from "@material-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import "./Loginpage.css";
 
@@ -11,6 +12,7 @@ export const LoginPage: React.FC = () => {
   });
 
   const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const loginUser = () => {
     axios
@@ -30,12 +32,10 @@ export const LoginPage: React.FC = () => {
         obj.userName = response.data.name;
         const serializedState = JSON.stringify(obj);
         var a = localStorage.setItem("myData", serializedState);
-        console.log("data:", a);
-        // const user = response.data.data.name;
-        // console.log("message: ", response.data.message, "user: ", user);
+        
 
         if (response.status === 200) {
-          console.log("iekšā");
+          setLoggedIn(true);
         } else alert("Invalid User");
       })
       .catch((error) => {
@@ -46,43 +46,47 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
+    
     <Container component="div">
-      <FormGroup>
-        <div className="Label">
-          <Label> Your email: </Label>
-        </div>
+     {(loggedIn == false)? (
+         <FormGroup>
+            <div className="Label">
+              <Label> Your email: </Label>
+            </div>
 
-        <Input
-          className="Input"
-          type="email"
-          id="email"
-          onChange={(e) =>
-            setGivenData({ ...givenData, email: e.target.value })
-          }
-          placeholder="enter your email"
-        />
-        <div className="Label">
-          <Label> Your password: </Label>
-        </div>
+            <Input
+              className="Input"
+              type="email"
+              id="email"
+              onChange={(e) =>
+              setGivenData({ ...givenData, email: e.target.value })
+              }
+              placeholder="enter your email"
+            />
+            <div className="Label">
+            <Label> Your password: </Label>
+            </div>
 
-        <Input
-          className="Input"
-          type="password"
-          id="password"
-          onChange={(e) =>
-            setGivenData({ ...givenData, password: e.target.value })
-          }
-          placeholder="enter your password"
-        />
+            <Input
+              className="Input"
+              type="password"
+              id="password"
+              onChange={(e) =>
+              setGivenData({ ...givenData, password: e.target.value })
+              }
+              placeholder="enter your password"
+              />
 
-        <div className="Button">
-          <Button onClick={loginUser.bind(this)} className="App-button">
-            Login
-          </Button>
-        </div>
-      </FormGroup>
-
-      <p itemType="text">UserInfo: {username}</p>
+            <div className="Button">
+            <Button onClick={loginUser.bind(this)} className="App-button">
+                Login
+            </Button>
+            </div>
+          </FormGroup>
+     ) : (
+          <Redirect to="/dashboard" />
+     )}
     </Container>
   );
+ 
 };

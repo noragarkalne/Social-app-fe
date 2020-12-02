@@ -16,9 +16,6 @@ export const Dashboard = () => {
     }
     const array = Object.entries(arr);
     const x = Object.fromEntries(array);
-    setMys(x);
-    console.log(x);
-    console.log("mys: ", x.userName);
     var y = Object.keys(x).map((key) => `${x[key]}`);
     setGivenUser(y[2].toString());
 

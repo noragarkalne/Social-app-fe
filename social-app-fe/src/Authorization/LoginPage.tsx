@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import "./Loginpage.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const LoginPage: React.FC = () => {
   const [givenData, setGivenData] = useState({
@@ -13,6 +14,7 @@ export const LoginPage: React.FC = () => {
 
   const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const loginUser = () => {
     axios
@@ -38,17 +40,21 @@ export const LoginPage: React.FC = () => {
         } else alert("Invalid User");
       })
       .catch((error) => {
-        if (error.response) {
-          return <div> "Please enter valid username or password!"</div>;
-        }
+        setErrorMessage(error.response.data.message);
       });
   };
 
   return (
+    <div className="wrapper">
     <Container component="div">
+      {errorMessage && (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
+        </div>
+      )}
       {loggedIn === false ? (
         <FormGroup>
-          <div className="Label">
+          <div className="Label-text">
             <Label> Your email: </Label>
           </div>
 
@@ -61,7 +67,7 @@ export const LoginPage: React.FC = () => {
             }
             placeholder="enter your email"
           />
-          <div className="Label">
+          <div className="Label-text">
             <Label> Your password: </Label>
           </div>
 
@@ -76,7 +82,7 @@ export const LoginPage: React.FC = () => {
           />
 
           <div className="Button">
-            <Button onClick={loginUser.bind(this)} className="App-button">
+            <Button color="warning" onClick={loginUser.bind(this)} className="App-button">
               Login
             </Button>
           </div>
@@ -85,5 +91,6 @@ export const LoginPage: React.FC = () => {
         <Redirect to="/dashboard" />
       )}
     </Container>
+    </div>
   );
 };

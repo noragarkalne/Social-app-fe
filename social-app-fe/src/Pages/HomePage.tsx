@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/original.gif";
-import "./style/HomePage.css";
+import "./styles/HomePage.css";
 
 export const HomePage = () => {
   return (

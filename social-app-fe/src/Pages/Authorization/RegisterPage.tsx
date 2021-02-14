@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Container } from "@material-ui/core";
-import "./RegisterPage.css";
+import "./styles/RegisterPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -53,7 +53,7 @@ export const Register = () => {
     <div className="wrapper">
       <Container component="div">
         {errorMessage && (
-          <div className="alert alert-danger" role="alert">
+          <div className="alert alert-danger register-alerts" role="alert">
             {errorMessage}
           </div>
         )}
@@ -100,6 +100,7 @@ export const Register = () => {
               <Label> Birthday: </Label>
             </div>
             <Input
+              className="Input"
               type="date"
               name="date"
               id="exampleDate"
@@ -155,7 +156,6 @@ export const Register = () => {
 
             <div>
               <Button
-                color="warning"
                 className="Reg-button"
                 onClick={registerNewUser.bind(this)}
               >

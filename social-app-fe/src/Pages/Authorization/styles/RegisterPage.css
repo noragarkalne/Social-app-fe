@@ -1,0 +1,62 @@
+.wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 0;
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: rgba(255, 154, 46);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.register-alerts{
+  border: none;
+  background-color: #721c24;
+  font-weight: bold;
+  color: #FFF;
+}
+
+.Label-text {
+  font-weight: bold;
+  color: #194931;
+}
+
+.Input {
+  border: 2px solid #194931;
+  border-radius: 4px;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.3);
+}
+
+.Input[type="date"] {
+  border: 2px solid #194931;
+  border-radius: 4px;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.3);
+}
+
+.Input[type="file"] {
+  border: 2px solid #194931;
+  border-radius: 4px;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.3);
+}
+
+::placeholder {
+  color: rgba(61, 58, 58, 0.7);
+  font-size: 70%;
+}
+
+.Input:focus {
+  border-color:#194931;
+  box-shadow: rgba(0, 0, 0, 0.075) 0 1px 1px inset,
+  #194931(102, 175, 233, 0.6) 0 0 8px;
+  outline: 0;
+}
+
+.btn-secondary {
+  background-color: #194931 !important;
+  color: rgba(255, 154, 46);
+  box-shadow: none;
+}

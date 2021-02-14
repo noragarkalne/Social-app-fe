@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import "./LoginPage.css";
+import "./styles/LoginPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Login: React.FC = () => {

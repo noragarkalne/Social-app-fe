@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
-import "./style/Navigation.css";
+import "./styles/Navigation.css";
 
 export const Navigation = () => {
   return (

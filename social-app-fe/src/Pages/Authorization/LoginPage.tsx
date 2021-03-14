@@ -12,7 +12,6 @@ export const Login: React.FC = () => {
     password: "",
   });
 
-  const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -20,23 +19,25 @@ export const Login: React.FC = () => {
     axios
       .post("http://localhost:7070/api/post/login", givenData)
       .then((response) => {
-        console.log(response);
-
-        setUsername(response.data.name);
-        console.log(response.data);
         var obj = {
+          id: "",
+          name: "",
+          surname: "",
           email: "",
-          password: "",
-          userName: "",
+          birthdate: "",
         };
+        obj.id = response.data.id;
         obj.email = response.data.email;
-        obj.password = response.data.password;
-        obj.userName = response.data.name;
+        obj.name = response.data.name;
+        obj.surname = response.data.surname;
+        obj.birthdate = response.data.birthDate;
         const serializedState = JSON.stringify(obj);
-        var a = localStorage.setItem("myData", serializedState);
+        localStorage.setItem("myData", serializedState);
+        console.log("aaa", serializedState);
 
         if (response.status === 200) {
           setLoggedIn(true);
+          return <Redirect to="/dashboard" />;
         } else alert("Invalid User");
       })
       .catch((error) => {
@@ -59,7 +60,7 @@ export const Login: React.FC = () => {
             </div>
 
             <Input
-              className="Input"
+              className="Input-login"
               type="email"
               id="email"
               onChange={(e) =>
@@ -72,7 +73,7 @@ export const Login: React.FC = () => {
             </div>
 
             <Input
-              className="Input"
+              className="Input-login"
               type="password"
               id="password"
               onChange={(e) =>
@@ -81,11 +82,11 @@ export const Login: React.FC = () => {
               placeholder="enter your password"
             />
 
-            <div className="Button">
+            <div className="btn-row">
               <Button
                 color="warning"
                 onClick={loginUser.bind(this)}
-                className="App-button"
+                className="Reg-button"
               >
                 Login
               </Button>

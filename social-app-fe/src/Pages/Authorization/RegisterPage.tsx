@@ -93,7 +93,7 @@ export const Register = () => {
               onChange={(e) =>
                 setNewUser({ ...newUser, email: e.target.value })
               }
-              placeholder="Last Name"
+              placeholder="E-mail"
             />
 
             <div className="Label-text">
@@ -150,11 +150,11 @@ export const Register = () => {
             />
 
             <div className="Label-text">
-              <Label for="exampleFile">File</Label>
+              <Label for="exampleFile">Profile photo:</Label>
             </div>
             <Input type="file" name="file" id="exampleFile" />
 
-            <div>
+            <div className="btn-row">
               <Button
                 className="Reg-button"
                 onClick={registerNewUser.bind(this)}

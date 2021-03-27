@@ -1,10 +1,11 @@
 import { Container } from "@material-ui/core";
 import axios from "axios";
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import "./styles/LoginPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { AuthRoutes } from "./AuthAndNonAuthConstants";
 
 export const Login: React.FC = () => {
   const [givenData, setGivenData] = useState({
@@ -14,6 +15,7 @@ export const Login: React.FC = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const history = useHistory();
 
   const loginUser = () => {
     axios
@@ -36,7 +38,10 @@ export const Login: React.FC = () => {
         console.log("aaa", serializedState);
 
         if (response.status === 200) {
+          history.push( AuthRoutes.dashboard);
+
           setLoggedIn(true);
+          console.log("HELLO", loggedIn);
           return <Redirect to="/dashboard" />;
         } else alert("Invalid User");
       })
@@ -44,6 +49,8 @@ export const Login: React.FC = () => {
         setErrorMessage(error.response.data.message);
       });
   };
+
+  useEffect(() => {}, [loggedIn]);
 
   return (
     <div className="wrapper">
@@ -53,7 +60,7 @@ export const Login: React.FC = () => {
             {errorMessage}
           </div>
         )}
-        {loggedIn === false ? (
+        {!loggedIn ? (
           <FormGroup>
             <div className="Label-text">
               <Label> Your email: </Label>

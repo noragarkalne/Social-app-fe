@@ -5,6 +5,11 @@ import { Login as LoginPage } from "./Pages/Authorization/LoginPage";
 import { Register as RegisterPage } from "./Pages/Authorization/RegisterPage";
 import { Dashboard } from "./Pages/Dashboard";
 import { HomePage } from "./Pages/HomePage";
+import { AuthRoute } from "./Pages/Authorization/AuthRoute";
+import {
+  AuthRoutes,
+  NonAuthRoutes,
+} from "./Pages/Authorization/AuthAndNonAuthConstants";
 
 export const Router = () => {
   return (
@@ -19,11 +24,14 @@ export const Router = () => {
           <RegisterPage />
         </Box>
       </Route>
-      <Route path="/dashboard">
+      {/* <Route path="/dashboard">
         <Box>
           <Dashboard />
         </Box>
-      </Route>
+      </Route> */}
+      <AuthRoute 
+				path={AuthRoutes.dashboard}
+				Component={Dashboard} />
       <Route path="/">
         <Box>
           <HomePage />

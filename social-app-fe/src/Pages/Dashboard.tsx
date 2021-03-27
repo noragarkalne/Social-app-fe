@@ -1,12 +1,11 @@
 import { Button } from "reactstrap";
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { Input } from "reactstrap";
-import Loader from "../Components/Loader";
 import "./styles/Dashboard.css";
 import logo from "../assets/original.gif";
-import ReactDOM from "react-dom";
 import { BiRightArrow } from "react-icons/bi";
+import { BsHeartFill } from "react-icons/bs";
 import axios from "axios";
 
 interface Person {
@@ -18,24 +17,26 @@ interface Person {
 }
 
 interface Post {
-  userId: Number;
+  id?: number;
+  userId: number;
   dateCreated: string;
   picture: string;
   text: string;
-  likes: Number;
-  dislikes: Number;
+  like: number;
+  dislike: number;
 }
 
 export const Dashboard = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [myPosts, setMyPosts] = useState<Post[]>([]);
-  const [newPost, setNewPost] = useState<Post>({
+  const [isLiked, setIsLiked] = useState<Post>();
+  const [post, setPost] = useState<Post>({
     userId: 0,
     dateCreated: "",
     picture: "",
     text: "",
-    likes: 0,
-    dislikes: 0,
+    like: 0,
+    dislike: 0,
   });
   const [givenUser, setGivenUser] = useState<Person>({
     id: 0,
@@ -44,9 +45,10 @@ export const Dashboard = () => {
     email: "",
     birthdate: "",
   });
+  const count = useRef(0);
+  let currentCount = count.current;
 
   useEffect(() => {
-    //logic for getting a local storage value
     const data = localStorage.getItem("myData");
     let arr = {};
     if (data) {
@@ -57,45 +59,73 @@ export const Dashboard = () => {
       const user = Object.fromEntries(array);
       console.log("USER", user);
       var userData = Object.keys(user).map((key) => `${user[key]}`);
+      console.log("USERdata", userData);
       setGivenUser({
-        id: Number(userData[0]),
-        name: userData[1].toString(),
-        surname: userData[2].toString(),
-        email: userData[3].toString(),
-        birthdate: userData[4].toString(),
+        id: parseInt(userData[0]),
+        name: userData[1],
+        surname: userData[2],
+        email: userData[3],
+        birthdate: userData[4],
       });
       setIsAuth(true);
+      console.log(givenUser);
     } else {
-      // <Redirect to="/login" />;
-      // setIsAuth(false);
-      // localStorage.clear();
+      <Redirect to="/login" />;
+      setIsAuth(false);
+      localStorage.clear();
     }
 
-    console.log("givenuser: ", givenUser);
-  }, []);
+    // console.log("givenuser: ", givenUser);
+  }, [isAuth]);
 
   useEffect(() => {
-    if (isAuth == true) {
+    console.log("kjsjjsij");
+    if (isAuth === true) {
       axios
         .get(`http://localhost:7070/api/posts/?userId=${givenUser.id}`)
         .then((response) => setMyPosts(response.data));
+    } else {
+      <Redirect to="/login" />;
     }
-    console.log("my posts", myPosts);
   }, [isAuth]);
+
+  console.log("my posts", myPosts);
 
   const Logout = () => {
     setIsAuth(false);
     localStorage.clear();
+    window.location.reload();
   };
 
-  if (!isAuth) {
-    return <Redirect to="/login" />;
-  }
+  const updateLikecount = (post: Post) => {
+    let dataForUpdate: Post = {
+      id: post.id,
+      userId: post.userId,
+      dateCreated: post.dateCreated,
+      picture: post.picture,
+      like: post.like ? post.like + 1 : 1,
+      dislike: post.dislike,
+      text: post.text,
+    };
+    console.log("dataforupdate", dataForUpdate);
+    count.current = dataForUpdate.like;
+    console.log(count.current);
+    axios
+      .put(`http://localhost:7070/api/posts/put`, dataForUpdate)
+      .then((response) => setIsLiked(response.data));
+    console.log("likes", isLiked);
+  };
+
+  // if (!isAuth) {
+  //   return <Redirect to="/login" />;
+  // }
 
   const handleClick = () => {
-    axios
-      .post("http://localhost:7070/api/posts/post", newPost)
-      .then((resp) => console.log("response", resp.data));
+    if (post.text || post.picture) {
+      axios
+        .post("http://localhost:7070/api/posts/post", post)
+        .then((resp) => setMyPosts([...myPosts, resp.data]));
+    }
   };
 
   return (
@@ -128,8 +158,8 @@ export const Dashboard = () => {
                 className="add-post-input"
                 placeholder="Pievienot jaunu ierakstu"
                 onChange={(e) =>
-                  setNewPost({
-                    ...newPost,
+                  setPost({
+                    ...post,
                     text: e.target.value,
                     userId: givenUser.id,
                   })
@@ -144,14 +174,26 @@ export const Dashboard = () => {
           </div>
           <div className="col-4 col-sm-2 right-panel">.col-2 .col-md-4</div>
         </div>
-
-        {/* <div className="col-sm-12 btn btn-primary">Dashboard</div>
-      <h1>Welcome {givenUser} </h1>
-      <Button onClick={Logout}>Logout</Button>
-
-      <div>isAuth: {isAuth.toString()}</div> */}
+        <div className="row dashboard-row">
+          <div className="col-4 col-sm-3 left-panel"></div>
+          <div className="col-4 col-sm-7 body-panel">
+            {myPosts.map((post, index) => (
+              <div key={index} className="post-container-wrapper">
+                <div>{post.text}</div>
+                <div>
+                  {currentCount}
+                  <BsHeartFill
+                    className="like-icon"
+                    onClick={() => updateLikecount(post)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="col-4 col-sm-2 right-panel"></div>
+        </div>
       </div>
-      <Button onClick={Logout}>Logout</Button>
+      {isAuth ? <Button onClick={() => Logout()}>Logout</Button> : <></>}
     </>
   );
 };

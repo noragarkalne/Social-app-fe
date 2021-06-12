@@ -30,6 +30,7 @@ export const Dashboard = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [myPosts, setMyPosts] = useState<Post[]>([]);
   const [isLiked, setIsLiked] = useState<Post>();
+  const [count, setCount] = useState(0);
   const [post, setPost] = useState<Post>({
     userId: 0,
     dateCreated: "",
@@ -45,8 +46,6 @@ export const Dashboard = () => {
     email: "",
     birthdate: "",
   });
-  const count = useRef(0);
-  let currentCount = count.current;
 
   useEffect(() => {
     const data = localStorage.getItem("myData");
@@ -108,8 +107,8 @@ export const Dashboard = () => {
       text: post.text,
     };
     console.log("dataforupdate", dataForUpdate);
-    count.current = dataForUpdate.like;
-    console.log(count.current);
+    setCount(dataForUpdate.like);
+    console.log();
     axios
       .put(`http://localhost:7070/api/posts/put`, dataForUpdate)
       .then((response) => setIsLiked(response.data));
@@ -181,7 +180,7 @@ export const Dashboard = () => {
               <div key={index} className="post-container-wrapper">
                 <div>{post.text}</div>
                 <div>
-                  {currentCount}
+                  {post.like}
                   <BsHeartFill
                     className="like-icon"
                     onClick={() => updateLikecount(post)}
